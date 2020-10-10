@@ -1,4 +1,3 @@
-const GEO_API_URL = "https://maps.googleapis.com/maps/api/geocode/json?result_type=sublocality_level_3&key=AIzaSyDQFBcx49cg1KIUSv86rMtNStC-zv2Zzy0&";
 var app = new Vue({
   el: '#app',
   data: {
@@ -69,23 +68,8 @@ var app = new Vue({
       navigator.geolocation.getCurrentPosition(
         // 取得成功した場合
         function (position) {
-          address_query_url = GEO_API_URL + "latlng=" + position.coords.latitude + "," + position.coords.longitude;
-          axios
-            .get(address_query_url)
-            .then(response => {
-              if (response.data.status != "OK") {
-                alert("現在位置の取得に失敗しました");
-                return;
-              }
-              this.now_address = response.data.results[0].formatted_address;
-
-              let url = "https://www.google.com/maps/search/?api=1&query=" + this.now_address + "+" + store_name;
-              window.location.href = url; // 遷移
-            })
-            .catch(error => {
-              alert("現在位置の取得に失敗しました");
-              return;
-            });
+          let url = "https://www.google.com/maps/search/?api=1&query=" + store_name;
+          window.location.href = url; // 遷移
         },
         // 取得失敗した場合
         function (error) {
