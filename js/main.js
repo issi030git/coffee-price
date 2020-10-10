@@ -73,16 +73,19 @@ var app = new Vue({
           axios
             .get(address_query_url)
             .then(response => {
-              if (response.data.status == "ZERO_RESULTS") {
+              if (response.data.status != "OK") {
                 alert("現在位置の取得に失敗しました");
                 return;
               }
               this.now_address = response.data.results[0].formatted_address;
 
-              // alert("緯度:" + position.coords.latitude + ",経度" + position.coords.longitude);
               let url = "https://www.google.com/maps/search/?api=1&query=" + this.now_address + "+" + store_name;
               window.location.href = url; // 遷移
             })
+            .catch(error => {
+              alert("現在位置の取得に失敗しました");
+              return;
+            });
         },
         // 取得失敗した場合
         function (error) {
