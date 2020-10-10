@@ -79,7 +79,8 @@ var app = new Vue({
               }
               this.now_address = response.data.results[0].formatted_address;
 
-              let url = "https://www.google.com/maps/search/?api=1&query=" + this.now_address + "+" + store_name;
+              // let url = "https://www.google.com/maps/search/?api=1&query=" + this.now_address + "+" + store_name;
+              let url = "https://www.google.com/maps/search/?api=1&query=" + store_name;
               window.location.href = url; // 遷移
             })
             .catch(error => {
