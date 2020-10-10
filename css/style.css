@@ -1,0 +1,107 @@
+html {
+  font-size: 100%;
+}
+
+button:focus,button:active {
+    outline: none !important;
+    box-shadow: none;
+}
+
+.my-menu-box {
+  position: relative;
+}
+
+.my-menu-box > button {
+  position: absolute;
+  height: 100%;
+  right: 0;
+  bottom: 0;
+  background:none;
+  border:0;
+}
+
+header.el-drawer__header > span{
+    outline: none ;
+}
+
+.theme_color_main , .el-slider__bar{
+  background-color: #7B5544;
+}
+
+#el-drawer__title{
+  background-color: #f4f4f5;
+  padding: 8px;
+  margin-bottom: 24px;
+}
+
+/*スライダーの円の枠を紫に*/
+.el-slider__button{
+  border: 2px solid #7B5544;
+}
+
+ul.right-align-ui {/*UIを横方向に並べ、全体は右寄せにする*/
+  display: flex;
+  justify-content: flex-end;/*右寄せ*/
+  align-items: center;
+  list-style: none;
+}
+
+div.el-card__body {/*カードのパッディングをデフォルトより小さく*/
+  padding: 8px;
+}
+
+[v-cloak] {
+  display: none;
+}
+
+.v-enter-active {
+  transition: opacity 1s, transform 1s;
+}
+
+.v-leave-active {
+  position: absolute;
+}
+
+.v-enter {
+  opacity: 0;
+  transform: translateY(32px);
+}
+
+.el-switch__label {
+  margin-left: 4px;
+}
+
+.el-switch__label span , .ui-text{
+  font-size: 1rem;
+}
+
+.is-active span{/*トグルスイッチがONになったときのテキストの色*/
+  color: #7B5544;
+}
+
+.el-dialog__body {
+  padding: 16px !important;
+}
+
+.el-divider--horizontal {
+  margin: 16px 0;
+}
+
+/*ユーザにテキストをドラッグできなくさせる*/
+.disable-select, div.el-switch span{
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+
+/*リンクの下線を消す*/
+a {
+  text-decoration: none !important;
+}
+
+p:focus {
+  outline: 0;
+  background-color: #7B5544;
+  border-color: #7B5544;
+  color: #fff;
+}
