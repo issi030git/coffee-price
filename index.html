@@ -42,7 +42,7 @@
     </el-drawer>
 
 
-    <div class="container pt-0 pb-2 px-2">
+    <div class="container pt-0 pb-2 px-2 footer-bias">
       <transition appear>
         <div v-if="!detailMode" key="a" v-cloak>
           <!-- トランジション表示のために入力エリアとプレビューエリアをグルーピングする -->
@@ -85,12 +85,12 @@
 
     </div>
 
-    <p>今の位置は{{now_address}}</p>
-    <p>今の緯度は{{now_lat}}</p>
-    <p>今の経度は{{now_lng}}</p>
+    <footer class="bg-white fixed-bottom text-center">
+      <p class="mb-2 text-small bg-accent">ⓘ <a href="https://geoapi.heartrails.com/">HeartRails Geo API</a>
+        を使用させて頂きました。</p>
+      <span>Copyright (C) 2020. issi030. All Rights Reserved.</span>
+    </footer>
 
-    <footer data-v-54e5dc25="" class="bg-light pt-1 fixed-bottom text-center footer-text">Copyright (C) 2020. issi030.
-      All Rights Reserved.</footer>
   </div>
 
 

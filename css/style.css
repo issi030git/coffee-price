@@ -105,3 +105,15 @@ p:focus {
   border-color: #7B5544;
   color: #fff;
 }
+
+.footer-bias{/*footer高さ分の下駄*/
+  margin-bottom: 72px;
+}
+
+.bg-accent {
+  background-color: bisque;
+}
+
+.text-small {
+  font-size: 0.85rem;
+}
