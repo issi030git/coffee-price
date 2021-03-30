@@ -1,3 +1,5 @@
+const GEO_API_URL = "http://geoapi.heartrails.com/api/json?method=searchByGeoLocation";
+
 var app = new Vue({
   el: '#app',
   data: {
@@ -6,7 +8,7 @@ var app = new Vue({
     direction: 'rtl',//ドロワーの方向
     width: window.innerWidth,
     detailMode: false,
-    now_address: "",
+    now_address: "---",
     items: [
       {
         store_name: "スターバックスコーヒー",
@@ -68,8 +70,20 @@ var app = new Vue({
       navigator.geolocation.getCurrentPosition(
         // 取得成功した場合
         function (position) {
-          let url = "https://www.google.com/maps/search/?api=1&query=" + store_name;
-          window.location.href = url; // 遷移
+          var crd = position.coords;
+          console.log('Your current position is:');
+          console.log(`Latitude : ${crd.latitude}`);//緯度
+          console.log(`Longitude: ${crd.longitude}`);//経度
+
+          axios
+            .get(GEO_API_URL + "&" + "x=" + crd.longitude + "&" + "y=" + crd.latitude)//xは軽度、yは緯度
+            .then(response => {
+              let loc = response.data;
+              loc = loc.response.location[0];
+              this.now_address = loc.town;
+              // let url = "https://www.google.com/maps/search/?api=1&query=" + store_name;
+              // window.location.href = url; // 遷移
+            })
         },
         // 取得失敗した場合
         function (error) {
