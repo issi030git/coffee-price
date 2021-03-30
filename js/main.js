@@ -14,7 +14,7 @@ var app = new Vue({
     items: [
       {
         store_name: "スターバックスコーヒー",
-        price: 330,
+        price: 290,
         icons: [],
       },
       {
@@ -24,17 +24,22 @@ var app = new Vue({
       },
       {
         store_name: "星乃珈琲店",
-        price: 500,
+        price: 420,
         icons: [],
       },
       {
         store_name: "コメダ珈琲店",
-        price: 490,
+        price: 510,
         icons: [],
       },
       {
         store_name: "タリーズコーヒー",
         price: 300,
+        icons: [],
+      },
+      {
+        store_name: "サンマルクカフェ",
+        price: 200,
         icons: [],
       },
     ],
