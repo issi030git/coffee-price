@@ -1,4 +1,4 @@
-const GEO_API_URL = "http://geoapi.heartrails.com/api/json?method=searchByGeoLocation";
+const GEO_API_URL = "https://geoapi.heartrails.com/api/json?method=searchByGeoLocation";
 
 var app = new Vue({
   el: '#app',
