@@ -9,6 +9,8 @@ var app = new Vue({
     width: window.innerWidth,
     detailMode: false,
     now_address: "---",
+    now_lat: 0,
+    now_lng: 0,
     items: [
       {
         store_name: "スターバックスコーヒー",
@@ -69,11 +71,10 @@ var app = new Vue({
       // 現在地を取得
       navigator.geolocation.getCurrentPosition(
         // 取得成功した場合
-        function (position) {
+        (position) => {
           var crd = position.coords;
-          console.log('Your current position is:');
-          console.log(`Latitude : ${crd.latitude}`);//緯度
-          console.log(`Longitude: ${crd.longitude}`);//経度
+          this.now_lat = crd.latitude;//緯度
+          this.now_lng = crd.longitude;//経度
 
           axios
             .get(GEO_API_URL + "&" + "x=" + crd.longitude + "&" + "y=" + crd.latitude)//xは軽度、yは緯度
