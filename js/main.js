@@ -71,20 +71,20 @@ var app = new Vue({
       // 現在地を取得
       navigator.geolocation.getCurrentPosition(
         // 取得成功した場合
-        (position) => {
+        position => {
           var crd = position.coords;
           this.now_lat = crd.latitude;//緯度
           this.now_lng = crd.longitude;//経度
 
           axios
-            .get(GEO_API_URL + "&" + "x=" + crd.longitude + "&" + "y=" + crd.latitude)//xは軽度、yは緯度
+            .get(GEO_API_URL + "&" + "x=" + this.now_lng + "&" + "y=" + this.now_lat)//xは経度、yは緯度
             .then(response => {
               let loc = response.data;
               loc = loc.response.location[0];
-              this.now_address = loc.town;
-              // let url = "https://www.google.com/maps/search/?api=1&query=" + store_name;
-              // window.location.href = url; // 遷移
-            })
+              this.now_address = loc.city + "+" + loc.town;
+              let url = "https://www.google.com/maps/search/?api=1&query=" + this.now_address + "+" + store_name;
+              window.location.href = url; // 遷移
+            });
         },
         // 取得失敗した場合
         function (error) {
