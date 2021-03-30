@@ -78,12 +78,20 @@ var app = new Vue({
 
           axios
             .get(GEO_API_URL + "&" + "x=" + this.now_lng + "&" + "y=" + this.now_lat)//xは経度、yは緯度
-            .then(response => {
+            .then(response => {//緯度経度からの地名取得に成功したら
               let loc = response.data;
-              loc = loc.response.location[0];
-              this.now_address = loc.city + "+" + loc.town;
+
+              this.now_address = "";
+              try {
+                loc = loc.response.location[0];
+                this.now_address = loc.city + "+" + loc.town;//〇〇市△△3丁目、といった感じの文字列
+              } catch (error) { }
+
               let url = "https://www.google.com/maps/search/?api=1&query=" + this.now_address + "+" + store_name;
               window.location.href = url; // 遷移
+            })
+            .catch(function (error) {
+              alert('現在位置の地名取得でエラーが発生しました')
             });
         },
         // 取得失敗した場合
