@@ -34,6 +34,18 @@ header.el-drawer__header > span{
   margin-bottom: 24px;
 }
 
+/*スライダーの円の枠を紫に*/
+.el-slider__button{
+  border: 2px solid #7B5544;
+}
+
+ul.right-align-ui {/*UIを横方向に並べ、全体は右寄せにする*/
+  display: flex;
+  justify-content: flex-end;/*右寄せ*/
+  align-items: center;
+  list-style: none;
+}
+
 div.el-card__body {/*カードのパッディングをデフォルトより小さく*/
   padding: 8px;
 }
@@ -55,6 +67,18 @@ div.el-card__body {/*カードのパッディングをデフォルトより小�
   transform: translateY(32px);
 }
 
+.el-switch__label {
+  margin-left: 4px;
+}
+
+.el-switch__label span , .ui-text{
+  font-size: 1rem;
+}
+
+.is-active span{/*トグルスイッチがONになったときのテキストの色*/
+  color: #7B5544;
+}
+
 .el-dialog__body {
   padding: 16px !important;
 }
@@ -64,11 +88,10 @@ div.el-card__body {/*カードのパッディングをデフォルトより小�
 }
 
 /*ユーザにテキストをドラッグできなくさせる*/
-.select-none {
-  user-select: none !important;
-  -moz-user-select: none !important;
-  -webkit-user-select: none !important;
-  -ms-user-select: none !important;
+.disable-select, div.el-switch span{
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
 }
 
 /*リンクの下線を消す*/
@@ -93,13 +116,4 @@ p:focus {
 
 .text-small {
   font-size: 0.85rem;
-}
-
-.active-row{
-  background-color: #F56C6C;
-  color: #fff;
-}
-
-.inactive-row{
-  color: #C0C4CC;
 }

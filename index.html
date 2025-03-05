@@ -1,219 +1,127 @@
 <!DOCTYPE html>
 <html lang="ja">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="”description”" content="" />
-    <!-- for BootStrap -->
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
-    <!-- for BootStrap -->
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-      crossorigin="anonymous"
-    />
-    <!-- for Elements-->
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/element-ui/lib/theme-chalk/index.css"
-    />
-    <!-- my CSS -->
-    <link rel="stylesheet" href="css/style.css" />
-    <!-- favicon setting -->
-    <link rel="shortcut icon" href="/favicon.ico" />
-    <!-- for axios -->
-    <script src="https://cdn.jsdelivr.net/npm/axios@0.17.1/dist/axios.min.js"></script>
 
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="192x192"
-      href="/android-touch-icon.png"
-    />
+<head>
+  <meta charset="utf-8">
+  <meta name=”description” content="">
+  <!-- for BootStrap -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <!-- for BootStrap -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <!-- for Elements-->
+  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+  <!-- my CSS -->
+  <link rel="stylesheet" href="css/style.css">
+  <!-- favicon setting -->
+  <link rel="shortcut icon" href="/favicon.ico">
+  <!-- for axios -->
+  <script src="https://cdn.jsdelivr.net/npm/axios@0.17.1/dist/axios.min.js"></script>
 
-    <title>Coffee Drip Timer</title>
-  </head>
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/android-touch-icon.png">
 
-  <body class="bg-light">
-    <div id="app">
-      <!-- この#appの内側にテンプレートを書き込んでいく -->
-      <header class="py-2 m-0 border-bottom shadow-sm theme_color_main">
-        <div
-          class="container px-2 m-0 h3 d-flex align-items-center mx-auto text-light my-menu-box disable-select"
-        >
-          <img class="mr-2" src="img/icon.svg" width="28" height="28" />
-          Coffee Drip Timer
-          <!-- ハンバーガーボタン -->
-          <button
-            class="px-2 py-0 d-flex align-items-center"
-            @click="drawerVisible=true"
-          >
-            <img class="py-auto" src="img/menu.svg" width="25" height="20" />
-          </button>
-        </div>
-      </header>
+  <title>コーヒー価格表</title>
+</head>
 
-      <!-- ドロワーメニュー -->
-      <el-drawer
-        v-cloak
-        title="メニュー"
-        :size="drawerWidth"
-        :visible.sync="drawerVisible"
-        :direction="direction"
-        class="select-none"
-      >
-        <p
-          class="ui-text ml-2"
-          v-on:click="activeScreenNo=1;drawerVisible=false"
-        >
-          メイン画面
-        </p>
-        <p
-          class="ui-text ml-2"
-          v-on:click="activeScreenNo=2;drawerVisible=false"
-        >
-          設定編集画面
-        </p>
-        <p
-          class="ui-text ml-2"
-          v-on:click="activeScreenNo=3;drawerVisible=false"
-        >
-          使い方説明
-        </p>
-      </el-drawer>
-
-      <div class="container pt-0 pb-2 px-2 footer-bias">
-        <transition appear>
-          <!-- メイン画面 -->
-          <div v-if="activeScreenNo == 1" key="a" v-cloak>
-            <el-card shadow="always" class="mt-4">
-              <div class="">
-                <span class="select-none">使用する設定：</span>
-                <el-select
-                  class="w-50"
-                  v-model="selectedSettingNo"
-                  placeholder="Select"
-                  v-bind:disabled="status=='start'"
-                >
-                  <el-option
-                    v-for="(item,index) in settings"
-                    :key="index"
-                    :label="item.settingName"
-                    :value="index"
-                  >
-                  </el-option>
-                </el-select>
-              </div>
-
-              <div class="mt-4">
-                <div class="d-flex justify-content-center align-items-center">
-                  <span class="h6 mb-0">{{getTimeStr()}}</span>
-                </div>
-                <div class="d-flex justify-content-center align-items-center">
-                  <span class="h1 mb-0">{{getTimerSecondValue}}</span>
-                  <span class="ml-2">秒</span>
-                </div>
-
-                <div class="d-flex justify-content-center">
-                  <el-button
-                    class="w-50"
-                    type="warning"
-                    icon="el-icon-timer"
-                    round
-                    v-on:click="start()"
-                    v-bind:disabled="status=='start'"
-                  >
-                    タイマースタート
-                  </el-button>
-                  <el-button
-                    class="w-25"
-                    type="info"
-                    icon="el-icon-timer"
-                    round
-                    v-on:click="reset()"
-                  >
-                    リセット
-                  </el-button>
-                </div>
-              </div>
-
-              <div class="mt-4 select-none">
-                <div
-                  class="my-0 border-top"
-                  v-for="(pair,index) in settings[selectedSettingNo].pairs"
-                >
-                  <div
-                    class="d-flex justify-content-center align-items-center py-2"
-                    v-bind:class="getRowColor(index)"
-                  >
-                    <span class="h4 mb-0">{{pair.startTime}}</span
-                    ><span class="ml-1 mr-4">秒〜</span>
-                    <span class="h1 mb-0">{{pair.targetAmount}}</span
-                    ><span class="ml-2">mlまで注ぐ</span>
-                  </div>
-                </div>
-              </div>
-            </el-card>
-          </div>
-          <!-- タイマー設定画面 -->
-          <div v-else-if="activeScreenNo == 2" key="b" v-cloak>
-            <el-card class="mt-4 mb-4">
-              <div>※未制作</div>
-            </el-card>
-          </div>
-
-          <!-- 使い方画面 -->
-          <div v-else-if="activeScreenNo == 3" key="b" v-cloak>
-            <el-card class="mt-4 mb-4">
-              <h4>このツールの使い方</h4>
-              <p>容器にドリッパーをセットし、スケールに乗せ0gに調整します。</p>
-              <p>使用する設定を選びます。</p>
-              <p>
-                タイマースタートボタンを押して、表示される指示量通りにお湯を注いでいきます。
-              </p>
-            </el-card>
-          </div>
-        </transition>
+<body class="bg-light">
+  <div id="app">
+    <!-- この#appの内側にテンプレートを書き込んでいく -->
+    <header class="py-2 m-0 border-bottom shadow-sm theme_color_main">
+      <div class="container px-2 m-0 h3 d-flex align-items-center mx-auto text-light my-menu-box disable-select">
+        <img class="mr-2" src="img/icon.svg" width="25" height="25">
+        コーヒー価格表
+        <!-- ハンバーガーボタン -->
+        <button class="px-2 py-0 d-flex align-items-center" @click="drawerVisible=true">
+          <img class="py-auto" src="img/menu.svg" width="25" height="20">
+        </button>
       </div>
+    </header>
 
-      <footer class="bg-white fixed-bottom text-center">
-        <span>Copyright (C) 2025. issi030. All Rights Reserved.</span>
-      </footer>
+    <!-- ドロワーメニュー -->
+    <el-drawer v-cloak title="設定" :size="drawerWidth" :visible.sync="drawerVisible" :direction="direction">
+      <p class="ui-text ml-2">ダミー項目1</p>
+      <p class="ui-text ml-2">ダミー項目2</p>
+    </el-drawer>
+
+
+    <div class="container pt-0 pb-2 px-2 footer-bias">
+      <transition appear>
+        <div v-if="!detailMode" key="a" v-cloak>
+          <!-- トランジション表示のために入力エリアとプレビューエリアをグルーピングする -->
+          <!-- 入力エリア -->
+          <el-card shadow="always" class="mt-4">
+            <ul class="right-align-ui my-0 mb-1 px-0">
+              <!-- ulにリスト要素を追加し、CSSを当てることで横並びにする　-->
+              <li class="ml-2">
+                <el-switch style="display: block" v-model="tax_flag" active-text="税込" active-color="#7B5544"
+                  inactive-text="">
+                </el-switch>
+              </li>
+              <!-- <li class="ml-2">
+                <el-button class="ui-text py-1 px-2" type="info" size="mini" v-on:click="">ダミー
+                </el-button>
+              </li> -->
+            </ul>
+
+            <div class="">
+              <div class="my-2 bg-caution border-top" v-for="item in sortedItemsByPrice">
+                <p class="pt-2 font-weight-bold">{{item.store_name}}</p>
+                <div class="d-flex pl-3">
+                  <span v-if="!tax_flag">{{item.price}}円</span>
+                  <span v-else>{{item.price | taxin}}円</span>
+                  <el-button class="ui-text py-1 px-2 ml-auto" type="danger" size="mini" icon="el-icon-search"
+                    v-on:click="openMap(item.store_name)">探す！</el-button>
+                </div>
+              </div>
+            </div>
+
+          </el-card>
+
+        </div>
+        <!-- 今の所使う予定のない第2画面 -->
+        <div v-else-if="detailMode" key="b" v-cloak>
+          <el-card class="mt-4 mb-4">
+          </el-card>
+        </div>
+      </transition>
+
     </div>
 
-    <!-- for Vue (本番用) -->
-    <script src="js/vue.min.js"></script>
-    <!-- for Vue (開発用) -->
-    <!-- <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script> -->
+    <footer class="bg-white fixed-bottom text-center">
+      <p class="mb-2 text-small bg-accent">ⓘ <a href="https://geoapi.heartrails.com/">HeartRails Geo API</a>
+        を使用させて頂きました。</p>
+      <span>Copyright (C) 2020. issi030. All Rights Reserved.</span>
+    </footer>
 
-    <!-- for BootStrap -->
-    <script
-      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-      crossorigin="anonymous"
-    ></script>
+  </div>
 
-    <!-- for axios -->
-    <script src="https://cdn.jsdelivr.net/npm/axios@0.17.1/dist/axios.min.js"></script>
 
-    <!-- for Elements -->
-    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+  <!-- for Vue (本番用) -->
+  <script src="js/vue.min.js"></script>
+  <!-- for Vue (開発用) -->
+  <!-- <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script> -->
 
-    <!-- my JS -->
-    <script src="js/main.js"></script>
-  </body>
+  <!-- for BootStrap -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+
+  <!-- for axios -->
+  <script src="https://cdn.jsdelivr.net/npm/axios@0.17.1/dist/axios.min.js"></script>
+
+  <!-- for Elements -->
+  <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+
+  <!-- my JS -->
+  <script src="js/main.js"></script>
+
+</body>
+
 </html>
